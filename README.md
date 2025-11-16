@@ -9,6 +9,7 @@
 ## 🌟 Features
 
 - **User Authentication** - Secure email/password signup and login with Supabase Auth
+- **Password Reset** - Forgot password functionality with email-based reset
 - **Gig Marketplace** - Browse, create, edit, and delete job postings
 - **Interactive Map** - Google Maps integration with custom markers showing all available gigs
 - **Location Services** - Post gigs with your current location or select a location on the map
