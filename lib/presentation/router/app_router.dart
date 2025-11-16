@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../screens/auth/login_screen.dart';
 import '../screens/auth/signup_screen.dart';
+import '../screens/auth/forgot_password_screen.dart';
 import '../screens/home/home_screen.dart';
 import '../screens/gig/create_gig_screen.dart';
 import '../screens/gig/edit_gig_screen.dart';
@@ -14,6 +15,7 @@ import '../providers/auth_provider.dart';
 class AppRoutes {
   static const String login = '/login';
   static const String signup = '/signup';
+  static const String forgotPassword = '/forgot-password';
   static const String home = '/';
   static const String createGig = '/gigs/create';
   static const String editGig = '/gigs/edit';
@@ -33,9 +35,16 @@ final routerProvider = Provider<GoRouter>((ref) {
       final isLoading = authState.isLoading;
       final isGoingToLogin = state.matchedLocation == AppRoutes.login;
       final isGoingToSignup = state.matchedLocation == AppRoutes.signup;
+      final isGoingToForgotPassword =
+          state.matchedLocation == AppRoutes.forgotPassword;
 
       // Show loading while checking auth
       if (isLoading) {
+        return null;
+      }
+
+      // Allow access to forgot password without authentication
+      if (isGoingToForgotPassword) {
         return null;
       }
 
@@ -66,6 +75,14 @@ final routerProvider = Provider<GoRouter>((ref) {
         pageBuilder: (context, state) => MaterialPage(
           key: state.pageKey,
           child: const SignupScreen(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.forgotPassword,
+        name: 'forgotPassword',
+        pageBuilder: (context, state) => MaterialPage(
+          key: state.pageKey,
+          child: const ForgotPasswordScreen(),
         ),
       ),
       GoRoute(

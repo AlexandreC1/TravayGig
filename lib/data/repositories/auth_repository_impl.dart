@@ -106,6 +106,34 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<Either<Failure, void>> resetPasswordForEmail(String email) async {
+    try {
+      await _remoteDataSource.resetPasswordForEmail(email);
+      return const Right(null);
+    } on AuthException catch (e) {
+      AppLogger.error('Auth error in resetPasswordForEmail', e);
+      return Left(AuthFailure(e.message));
+    } catch (e) {
+      AppLogger.error('Unexpected error in resetPasswordForEmail', e);
+      return Left(UnexpectedFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updatePassword(String newPassword) async {
+    try {
+      await _remoteDataSource.updatePassword(newPassword);
+      return const Right(null);
+    } on AuthException catch (e) {
+      AppLogger.error('Auth error in updatePassword', e);
+      return Left(AuthFailure(e.message));
+    } catch (e) {
+      AppLogger.error('Unexpected error in updatePassword', e);
+      return Left(UnexpectedFailure(e.toString()));
+    }
+  }
+
+  @override
   Stream<UserProfile?> authStateChanges() {
     return _remoteDataSource
         .authStateChanges()

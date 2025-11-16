@@ -129,7 +129,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     validator: Validators.password,
                     enabled: !_isLoading,
                   ).animate().slideX(delay: 500.ms),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 8),
+
+                  // Forgot password link
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: _isLoading
+                          ? null
+                          : () => context.push(AppRoutes.forgotPassword),
+                      child: const Text('Bliye modpas?'),
+                    ),
+                  ).animate().fadeIn(delay: 550.ms),
+                  const SizedBox(height: 16),
 
                   // Login button
                   FilledButton(

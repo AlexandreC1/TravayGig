@@ -157,4 +157,28 @@ class AuthRemoteDataSource {
       }
     });
   }
+
+  /// Send password reset email
+  /// Supabase will send an email with a reset link to the user
+  Future<void> resetPasswordForEmail(String email) async {
+    try {
+      await _supabase.auth.resetPasswordForEmail(email);
+    } catch (e, stackTrace) {
+      AppLogger.error('Error sending password reset email', e, stackTrace);
+      throw AuthException('Failed to send password reset email: $e');
+    }
+  }
+
+  /// Update user password (after receiving reset link)
+  /// This is called when user clicks the reset link and provides a new password
+  Future<void> updatePassword(String newPassword) async {
+    try {
+      await _supabase.auth.updateUser(
+        UserAttributes(password: newPassword),
+      );
+    } catch (e, stackTrace) {
+      AppLogger.error('Error updating password', e, stackTrace);
+      throw AuthException('Failed to update password: $e');
+    }
+  }
 }

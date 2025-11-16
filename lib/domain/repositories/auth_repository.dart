@@ -31,6 +31,12 @@ abstract class AuthRepository {
     String? avatarUrl,
   });
 
+  /// Send password reset email
+  Future<Either<Failure, void>> resetPasswordForEmail(String email);
+
+  /// Update user password
+  Future<Either<Failure, void>> updatePassword(String newPassword);
+
   /// Stream of auth state changes
   Stream<UserProfile?> authStateChanges();
 }

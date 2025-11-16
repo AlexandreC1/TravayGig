@@ -132,6 +132,40 @@ class AuthNotifier extends StateNotifier<AsyncValue<UserProfile?>> {
       },
     );
   }
+
+  /// Request password reset email
+  /// Returns true if email was sent successfully, false otherwise
+  Future<bool> resetPassword(String email) async {
+    final result = await _authRepository.resetPasswordForEmail(email);
+
+    return result.fold(
+      (failure) {
+        AppLogger.error('Password reset failed', failure.message);
+        return false;
+      },
+      (_) {
+        AppLogger.info('Password reset email sent to $email');
+        return true;
+      },
+    );
+  }
+
+  /// Update password with new password
+  /// Returns true if password was updated successfully
+  Future<bool> updatePasswordWithNew(String newPassword) async {
+    final result = await _authRepository.updatePassword(newPassword);
+
+    return result.fold(
+      (failure) {
+        AppLogger.error('Password update failed', failure.message);
+        return false;
+      },
+      (_) {
+        AppLogger.info('Password updated successfully');
+        return true;
+      },
+    );
+  }
 }
 
 /// Provider for auth state
